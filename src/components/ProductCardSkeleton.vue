@@ -10,11 +10,10 @@ import Skeleton from "primevue/skeleton";
     <div class="aspect-3/2 w-full">
       <Skeleton height="100%" border-radius="0" />
     </div>
-    <div class="flex flex-col gap-3 p-4">
+    <div class="flex flex-col gap-2 p-4">
       <Skeleton width="40%" height="0.75rem" />
       <Skeleton width="80%" height="1.25rem" />
       <Skeleton width="100%" height="0.875rem" />
-      <Skeleton width="60%" height="0.875rem" />
       <Skeleton width="30%" height="1.5rem" class="mt-2" />
     </div>
   </div>

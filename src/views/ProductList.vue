@@ -11,7 +11,7 @@ import ProductFilters from "@/components/ProductFilters.vue";
 import { SORT_KEYS, useProductFilters, type SortKey } from "@/composables/useProductFilters";
 import { useCatalogStore } from "@/stores/catalog";
 
-const SKELETON_COUNT = 8;
+const SKELETON_COUNT = 3;
 
 const route = useRoute();
 const router = useRouter();
@@ -95,7 +95,7 @@ watch(
       @reset="reset"
     />
 
-    <div v-if="loading" class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4" aria-busy="true">
+    <div v-if="loading" class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3" aria-busy="true">
       <ProductCardSkeleton v-for="i in SKELETON_COUNT" :key="i" />
     </div>
 
@@ -124,7 +124,7 @@ watch(
       <Button rounded size="small" @click="reset">Reset filters</Button>
     </EmptyState>
 
-    <div v-else class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+    <div v-else class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
       <ProductCard v-for="product in filtered" :key="product.id" :product="product" />
     </div>
   </section>

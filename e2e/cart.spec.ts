@@ -3,7 +3,10 @@ import { test, expect } from "./fixtures";
 test.describe("cart", () => {
   test("add to cart updates header and cart page", async ({ emptyCartPage: page }) => {
     await page.goto("/product/p1");
-    await page.getByRole("button", { name: /^Add to cart/ }).first().click();
+    await page
+      .getByRole("button", { name: /^Add to cart/ })
+      .first()
+      .click();
 
     await expect(page.getByText("Added to cart")).toBeVisible();
     await expect(page.getByTestId("cart-count")).toHaveText("1");
@@ -76,7 +79,7 @@ test.describe("cart", () => {
 
     const clearTrigger = page.getByRole("button", { name: /Clear cart/ }).first();
     await clearTrigger.click();
-    // Confirm message is rendered only when popup is open — use it as a visibility gate
+    // Confirm message is rendered only when popup is open - use it as a visibility gate
     const message = page.getByText("Remove all items from your cart?");
     await expect(message).toBeVisible();
     // Cancel exists only inside the popup
@@ -86,7 +89,7 @@ test.describe("cart", () => {
 
     await clearTrigger.click();
     await expect(message).toBeVisible();
-    // The accept button is also labeled "Clear cart" — second match is the popup button (trigger came first)
+    // The accept button is also labeled "Clear cart" - second match is the popup button (trigger came first)
     await page.getByRole("button", { name: "Clear cart" }).last().click();
 
     await expect(page.getByRole("heading", { name: "Your cart is empty" })).toBeVisible();

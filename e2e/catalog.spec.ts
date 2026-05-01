@@ -82,7 +82,7 @@ test.describe("catalog", () => {
   test("invalid sort param falls back to default ordering", async ({ emptyCartPage: page }) => {
     await page.goto("/?sort=NOT_A_SORT_KEY");
     // App ignores the bogus value and renders default name-asc order without crashing.
-    // (Note: the URL is intentionally NOT rewritten — the app treats unknown sort as "use default".)
+    // (Note: the URL is intentionally NOT rewritten - the app treats unknown sort as "use default".)
     await expect(page.getByLabel("Sort by")).toContainText("Name (A → Z)");
     const titles = page.locator("h3").filter({
       hasText: /Awesome E-book Reader Pro|Ultimate Graphics Suite|Vue\.js Masterclass Course/,
