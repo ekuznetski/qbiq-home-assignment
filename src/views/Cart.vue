@@ -1,11 +1,12 @@
 <script setup lang="ts">
+import { computed } from "vue";
 import { RouterLink, useRouter } from "vue-router";
 import { storeToRefs } from "pinia";
 import Button from "primevue/button";
 import Skeleton from "primevue/skeleton";
 import { useConfirm } from "primevue/useconfirm";
 import { useToast } from "primevue/usetoast";
-import { ArrowRight, Lock, Minus, Plus, ShoppingCart, Trash2 } from "lucide-vue-next";
+import { ArrowRight, Lock, Minus, Plus, RefreshCw, ShoppingCart, Trash2, TriangleAlert } from "lucide-vue-next";
 import BackToProductsLink from "@/components/BackToProductsLink.vue";
 import EmptyState from "@/components/EmptyState.vue";
 import ProductThumb from "@/components/ProductThumb.vue";
@@ -20,7 +21,9 @@ const toast = useToast();
 const confirm = useConfirm();
 
 const { items, count, lineItems, totalPrice } = storeToRefs(cart);
-const { loading: catalogLoading } = storeToRefs(catalog);
+const { loading: catalogLoading, error: catalogError } = storeToRefs(catalog);
+
+const persistedQty = computed(() => items.value.reduce((sum, i) => sum + i.qty, 0));
 
 function confirmClear(event: MouseEvent): void {
   confirm.require({
@@ -49,7 +52,27 @@ async function checkout(): Promise<void> {
 
 <template>
   <section class="mx-auto max-w-7xl px-6 py-12 sm:px-10">
-    <template v-if="count === 0 && !(catalogLoading && items.length > 0)">
+    <template v-if="catalogError && items.length > 0">
+      <BackToProductsLink class="mb-6" label="Continue shopping" />
+      <div class="rounded-xl border border-red-500/40 bg-red-500/10 p-6" role="alert">
+        <div class="flex items-center gap-2">
+          <TriangleAlert class="size-5 text-red-400" aria-hidden="true" />
+          <p class="font-semibold">We can't load your cart right now</p>
+        </div>
+        <p class="mt-1 text-sm text-muted-color">
+          Your saved items are safe ({{ persistedQty }} {{ persistedQty === 1 ? "item" : "items" }}), but we
+          couldn't reach the catalog: {{ catalogError }}
+        </p>
+        <Button rounded size="small" class="mt-4" :loading="catalogLoading" @click="catalog.load()">
+          <span class="inline-flex items-center gap-1.5">
+            <RefreshCw class="size-3.5" />
+            Retry
+          </span>
+        </Button>
+      </div>
+    </template>
+
+    <template v-else-if="count === 0 && !(catalogLoading && items.length > 0)">
       <EmptyState
         title="Your cart is empty"
         description="Browse the catalog and add a few digital tools to get started."

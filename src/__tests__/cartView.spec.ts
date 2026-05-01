@@ -27,6 +27,7 @@ const routes = [
 
 describe("Cart view", () => {
   beforeEach(() => {
+    localStorage.clear();
     mockFetch.mockReset();
     mockFetch.mockResolvedValue([...PRODUCT_FIXTURE]);
     mockRequire.mockReset();
@@ -75,6 +76,39 @@ describe("Cart view", () => {
     expect(events).toEqual(["router.push", "cart.clear"]);
     expect(cart.count).toBe(0);
     expect(router.currentRoute.value.path).toBe("/");
+  });
+
+  it("shows outage panel with Retry when catalog failed and items are persisted", async () => {
+    const pinia = createTestPinia();
+    const router = createTestRouter(routes);
+    await router.push("/cart");
+    await router.isReady();
+
+    const cart = useCartStore();
+    cart.addItem("p1", 2);
+    const catalog = useCatalogStore();
+    catalog.products = [];
+    catalog.error = "Mock fetch failed";
+
+    const wrapper = mount(Cart, { global: { plugins: getTestGlobal(router, pinia) } });
+    await flushPromises();
+
+    const alert = wrapper.find('[role="alert"]');
+    expect(alert.exists()).toBe(true);
+    expect(alert.text()).toContain("We can't load your cart right now");
+    expect(alert.text()).toContain("Mock fetch failed");
+    expect(alert.text()).toContain("2 items");
+    expect(wrapper.text()).not.toContain("Your cart is empty");
+
+    const retryBtn = wrapper.findAll("button").find((b) => b.text().includes("Retry"));
+    expect(retryBtn).toBeTruthy();
+
+    mockFetch.mockResolvedValueOnce([...PRODUCT_FIXTURE]);
+    await retryBtn?.trigger("click");
+    await flushPromises();
+
+    expect(catalog.error).toBeNull();
+    expect(catalog.products).toHaveLength(PRODUCT_FIXTURE.length);
   });
 
   it("Clear cart asks for confirmation and only clears when accepted", async () => {
