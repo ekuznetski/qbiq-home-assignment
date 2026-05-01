@@ -34,7 +34,11 @@ const cartAriaLabel = computed(() => (count.value === 0 ? "Cart, empty" : `Cart,
             v-if="count > 0"
             :value="count"
             severity="contrast"
-            :pt="{ pcBadge: { root: { class: 'h-5 min-w-5 p-0 text-[11px] font-semibold' } } }"
+            :pt="{
+              pcBadge: {
+                root: { class: 'h-5 min-w-5 p-0 text-[11px] font-semibold', 'data-testid': 'cart-count' },
+              },
+            }"
           >
             <ShoppingCart class="size-5" aria-hidden="true" />
           </OverlayBadge>

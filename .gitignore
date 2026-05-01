@@ -13,6 +13,9 @@ dist-ssr
 coverage
 *.local
 .playwright-cli
+playwright-report
+test-results
+.playwright
 
 # Editor directories and files
 .vscode/*
