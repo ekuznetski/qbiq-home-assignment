@@ -1,0 +1,42 @@
+[
+  {
+    "id": "p1",
+    "name": "Awesome E-book Reader Pro",
+    "price": 79.99,
+    "shortDescription": "The best e-book reading experience.",
+    "thumbnailUrl": "https://placehold.co/300x200/007BFF/FFFFFF?text=E-book+Reader",
+    "longDescription": "Unlock a world of knowledge with the Awesome E-book Reader Pro. Features include adjustable font sizes, night mode, and seamless library synchronization. Supports all major e-book formats.",
+    "category": "Software",
+    "reviews": [
+      { "username": "ReaderFan123", "comment": "Love it! So easy to use." },
+      { "username": "Bookworm_Betty", "comment": "Changed how I read forever." }
+    ]
+  },
+  {
+    "id": "p2",
+    "name": "Ultimate Graphics Suite",
+    "price": 199.5,
+    "shortDescription": "All-in-one design software.",
+    "thumbnailUrl": "https://placehold.co/300x200/28A745/FFFFFF?text=Graphics+Suite",
+    "longDescription": "The Ultimate Graphics Suite provides a comprehensive set of tools for professional photo editing, vector illustration, and page layout. Perfect for designers of all levels.",
+    "category": "Software",
+    "reviews": [{ "username": "DesignerDan", "comment": "Powerful tools, great value!" }]
+  },
+  {
+    "id": "p3",
+    "name": "Vue.js Masterclass Course",
+    "price": 99.0,
+    "shortDescription": "Become a Vue.js expert.",
+    "thumbnailUrl": "https://placehold.co/300x200/FFC107/000000?text=Vue.js+Course",
+    "longDescription": "This comprehensive course covers everything from the basics of Vue.js to advanced concepts like state management with Pinia, server-side rendering, and testing. Taught by industry experts.",
+    "category": "Online Course",
+    "reviews": [
+      {
+        "username": "VueLearner",
+        "comment": "Excellent course, highly recommended."
+      },
+      { "username": "DevDude", "comment": "Learned so much, thank you!" },
+      { "username": "CodeNinja", "comment": "Worth every penny." }
+    ]
+  }
+]

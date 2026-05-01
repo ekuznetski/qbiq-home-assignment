@@ -1,0 +1,73 @@
+@layer theme, base, primevue, components, utilities;
+
+@import "tailwindcss";
+@import "tailwindcss-primeui";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* Runtime token bridge.
+   PrimeVue Aura injects the actual values into :root at runtime via @layer
+   primevue. Declaring sane defaults here in @layer theme lets IDE/Stylelint
+   resolve the names statically and keeps the UI alive if PrimeVue fails to
+   load. Cascade order (theme < primevue) guarantees the runtime values win. */
+@layer theme {
+  :root {
+    --p-primary-color: #34d399;
+    --p-text-color: #18181b;
+    --p-surface-50: #fafafa;
+    --p-surface-950: #09090b;
+  }
+
+  .dark {
+    --p-text-color: #f4f4f5;
+  }
+}
+
+/* Tailwind v4 semantic aliases.
+   `@theme inline` keeps the var() reference (no compile-time substitution)
+   so utilities resolve through the bridge → PrimeVue runtime values. */
+@theme inline {
+  --color-primary: var(--p-primary-color);
+  --color-text: var(--p-text-color);
+  --color-surface-50: var(--p-surface-50);
+  --color-surface-950: var(--p-surface-950);
+}
+
+@theme {
+  --font-sans: "Geist", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "Geist Mono", "JetBrains Mono", ui-monospace, monospace;
+}
+
+html {
+  color-scheme: light dark;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--color-surface-50);
+  color: var(--color-text);
+}
+
+.dark body {
+  background: var(--color-surface-950);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+@layer base {
+  button:not(:disabled),
+  [role="button"]:not(:disabled),
+  [type="button"]:not(:disabled),
+  [type="submit"]:not(:disabled),
+  [type="reset"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
